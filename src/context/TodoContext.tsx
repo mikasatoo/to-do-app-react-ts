@@ -4,8 +4,15 @@ import { useLocalStorage } from 'usehooks-ts';
 
 // Define an interface for the TodoContextProps
 interface TodoContextProps {
-  todos: string[];
-  addTodo: (text: string) => void;
+  todos: Todo[]
+  addTodo: (text: string) => void
+}
+
+// Add an interface for the to do items
+export interface Todo {
+  id: string
+  text: string
+  status: 'incomplete' | 'complete'
 }
 
 // Create the TodoContext
@@ -15,10 +22,17 @@ export const TodoContext = createContext<TodoContextProps | undefined>(
 
 // Provide the context
 export const TodoProvider = (props: { children: React.ReactNode }) => {
-  const [todos, setTodos] = useState<string[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   
+  // addTodo functionality
   const addTodo = (text: string) => {
-    setTodos([...todos, text]);
+    const newTodo: Todo = {
+      id: nanoid(),
+      text,
+      status: 'incomplete',
+    }
+
+    setTodos([...todos, newTodo]);
   }
 
   // Create the value for the context
