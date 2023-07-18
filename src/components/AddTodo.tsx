@@ -21,7 +21,7 @@ export const AddTodo = () => {
   return (
     <form onSubmit={handleSubmission}>
       <div className="flex items-center w-full max-w-lg gap-2 p-5 m-auto">
-        <input
+        <Input
           ref={inputRef}
           value={input}
           onChange={e => setInput(e.target.value)}
