@@ -6,7 +6,7 @@ import { Input } from './Input';
 export const AddTodo = () => {
   const [input, setInput] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
-  const [todos, setTodos] = useState<string[]>([]);
+  const { addTodo } = useTodo();
 
   useEffect(() => {
     if (inputRef.current) {
@@ -17,10 +17,12 @@ export const AddTodo = () => {
   const handleSubmission = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim() !== '') {
-      setTodos([...todos, input]);
+      addTodo(input);
       setInput('');
+      toast.success('Todo added successfully!');
+    } else {
+      toast.error('Todo field cannot be empty!');
     }
-    console.log('Form has been submitted');
   }
 
   return (
@@ -31,7 +33,6 @@ export const AddTodo = () => {
           value={input}
           onChange={e => setInput(e.target.value)}
           type="text"
-          className="w-full px-5 py-2 bg-transparent border-2 outline-none border-zinc-600 rounded-xl placeholder:text-zinc-500 focus:border-white"
           placeholder="Start typing..."
         />
         <button
