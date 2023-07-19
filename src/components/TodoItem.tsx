@@ -12,17 +12,17 @@ import { motion } from 'framer-motion';
 
 export const TodoItem = (props: { todo: Todo }) => {
   const { todo } = props;
-  
+
   const [editingTodoText, setEditingTodoText] = useState<string>('');
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
-
+  
   const { deleteTodo, editTodo, updateTodoStatus } = useTodo();
 
   const editInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (editingTodoId !== null && editInputRef.current) {
-      editInputRef.current.focus()
+      editInputRef.current.focus();
     }
   }, [editingTodoId]);
 
