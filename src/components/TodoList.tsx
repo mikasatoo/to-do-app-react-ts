@@ -1,9 +1,10 @@
-import { TodoItem } from './TodoItem'
-import { useTodo } from '../context'
-import { SiStarship } from 'react-icons/si'
+import { TodoItem } from './TodoItem';
+import { useTodo } from '../context';
+import { SiStarship } from 'react-icons/si';
+import { motion } from 'framer-motion';
 
 export const TodoList = () => {
-  const { todos } = useTodo()
+  const { todos } = useTodo();
 
   if (!todos.length) {
     return (
@@ -13,14 +14,14 @@ export const TodoList = () => {
           You have nothing to do!
         </h1>
       </div>
-    )
+    );
   }
 
   return (
-    <ul className="grid max-w-lg gap-2 px-5 m-auto">
+    <motion.ul className="grid max-w-lg gap-2 px-5 m-auto">
       {todos.map(todo => (
         <TodoItem todo={todo} key={todo.id} />
       ))}
-    </ul>
-  )
+    </motion.ul>
+  );
 }

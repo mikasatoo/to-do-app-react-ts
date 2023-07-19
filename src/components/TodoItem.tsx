@@ -1,59 +1,59 @@
-import { useEffect, useRef, useState } from 'react'
-import { useTodo } from '../context'
-import type { Todo } from '../context'
-import { Input } from './Input'
-import { BsCheck2Square } from 'react-icons/bs'
-import { TbRefresh } from 'react-icons/tb'
-import { FaRegEdit } from 'react-icons/fa'
-import { RiDeleteBin7Line } from 'react-icons/ri'
-import { toast } from 'react-hot-toast'
-import cn from 'classnames'
-import { motion } from 'framer-motion'
+import type { Todo } from '../context/TodoContext';
+import { useEffect, useRef, useState } from 'react';
+import { useTodo } from '../context/useTodo';
+import { Input } from './Input';
+import { BsCheck2Square } from 'react-icons/bs';
+import { TbRefresh } from 'react-icons/tb';
+import { FaRegEdit } from 'react-icons/fa';
+import { RiDeleteBin7Line } from 'react-icons/ri';
+import { toast } from 'react-hot-toast';
+import cn from 'classnames';
+import { motion } from 'framer-motion';
 
 export const TodoItem = (props: { todo: Todo }) => {
-  const { todo } = props
+  const { todo } = props;
 
-  const [editingTodoText, setEditingTodoText] = useState<string>('')
-  const [editingTodoId, setEditingTodoId] = useState<string | null>(null)
+  const [editingTodoText, setEditingTodoText] = useState<string>('');
+  const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
+  
+  const { deleteTodo, editTodo, updateTodoStatus } = useTodo();
 
-  const { deleteTodo, editTodo, updateTodoStatus } = useTodo()
-
-  const editInputRef = useRef<HTMLInputElement>(null)
+  const editInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (editingTodoId !== null && editInputRef.current) {
-      editInputRef.current.focus()
+      editInputRef.current.focus();
     }
-  }, [editingTodoId])
+  }, [editingTodoId]);
 
   const handleEdit = (todoId: string, todoText: string) => {
-    setEditingTodoId(todoId)
-    setEditingTodoText(todoText)
+    setEditingTodoId(todoId);
+    setEditingTodoText(todoText);
 
     if (editInputRef.current) {
-      editInputRef.current.focus()
+      editInputRef.current.focus();
     }
   }
 
   const handleUpdate = (todoId: string) => {
     if (editingTodoText.trim() !== '') {
-      editTodo(todoId, editingTodoText)
-      setEditingTodoId(null)
-      setEditingTodoText('')
-      toast.success('Todo updated successfully!')
+      editTodo(todoId, editingTodoText);
+      setEditingTodoId(null);
+      setEditingTodoText('');
+      toast.success('To do item successfully updated!');
     } else {
-      toast.error('Todo field cannot be empty!')
+      toast.error('To do field cannot be empty');
     }
   }
 
   const handleDelete = (todoId: string) => {
-    deleteTodo(todoId)
-    toast.success('Todo deleted successfully!')
+    deleteTodo(todoId);
+    toast.success('To do item successfully deleted!');
   }
 
   const handleStatusUpdate = (todoId: string) => {
-    updateTodoStatus(todoId)
-    toast.success('Todo status updated successfully!')
+    updateTodoStatus(todoId);
+    toast.success('To do status successfully updated!');
   }
 
   return (
@@ -93,22 +93,22 @@ export const TodoItem = (props: { todo: Todo }) => {
           </motion.span>
           <div className="flex justify-between gap-5 text-white">
             <button onClick={() => handleStatusUpdate(todo.id)}>
-              {todo.status === 'undone' ? (
+              {todo.status === 'incomplete' ? (
                 <span className="flex items-center gap-1">
                   <BsCheck2Square />
-                  Mark Completed
+                  Mark completed
                 </span>
               ) : (
                 <span className="flex items-center gap-1">
                   <TbRefresh />
-                  Mark Undone
+                  Mark incomplete
                 </span>
               )}
             </button>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => handleEdit(todo.id, todo.text)}
-                className="flex items-center gap-1 "
+                className="flex items-center gap-1"
               >
                 <FaRegEdit />
                 Edit
@@ -125,5 +125,5 @@ export const TodoItem = (props: { todo: Todo }) => {
         </div>
       )}
     </motion.li>
-  )
+  );
 }
